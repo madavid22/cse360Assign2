@@ -1,7 +1,7 @@
 /**
  * @author Marquell David
  * Class ID: 199
- * Assignment 1
+ * Assignment 2
  * 
  * This is a SimpleList class that will
  * add, remove, search, print, and count the
@@ -49,27 +49,45 @@ public class SimpleList
 			  * and shift elements if the list was already full
 			  */
 			 
-			 for(int index = currentLength - 1; index > 0; index--)
+			 if(currentLength >= 10)
 			 {
-				 if(currentLength == 10)
+				 int[] tempList = new int[currentLength * 2];
+				 
+				 // Copying the contents of the list to a temporary list 
+				 for(int inner = 0; inner < currentLength; inner++)
+				 {
+					 tempList[inner] = list[inner];
+				 }
+				 
+				 // Overwriting the list with a 50% increase in length
+				 list = new int[currentLength * 2];
+				 
+				 // copying the contents of the temporary list back into the main list
+				 for(int copyIndex = 0; copyIndex < currentLength; copyIndex++)
+				 {
+					 list[copyIndex] = tempList[copyIndex];
+				 }
+				 
+				 for(int index = currentLength - 1; index > 0; index--)
 				 {
 					 list[index] = list[index - 1];
 				 }
-				 else
-				 {
-					 list[index + 1] = list[index];
-				 }
+				
 			 }
-		 }
-		 
+			 
+			 else
+			 {
+				 for(int index = currentLength - 1; index > 0; index--)
+				 {
+					list[index + 1] = list[index]; 
+				 }
+			 } 
+			 
 		 list[0] = newElement;
 		 
-		 if(count < 10)
-		 {
-			 count++;
-		 }
-		 
+		 count++; 
 	 }
+}
 	 
 	 
 	 /**
@@ -147,7 +165,7 @@ public class SimpleList
 		 }
 		 else
 		 {
-			 displayString = "The list is empty.";
+			 displayString = "";
 		 }
 		
 		 
