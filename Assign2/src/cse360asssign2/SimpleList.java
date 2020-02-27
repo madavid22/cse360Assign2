@@ -3,9 +3,13 @@
  * Class ID: 199
  * Assignment 2
  * 
+ * Version 1:
  * This is a SimpleList class that will
  * add, remove, search, print, and count the
- * elements of a size 10 list.
+ * elements of an initial list of size 10.
+ * The size of the list will be allocated 50% of 
+ * space, or deallocated 25% of space depending on
+ * the current condition of the list.
  */
 
 package cse360asssign2;
@@ -31,7 +35,8 @@ public class SimpleList
 	 
 	 /**
 	  * Places newElement in the first index of 
-	  * the lists and shifts all other elements forward.
+	  * the lists and shifts all other elements forward. 
+	  * Increases the size of the list 50% if the list is full.
 	  *
 	  * @param newElement	the element to add to the list 
 	  */
@@ -41,60 +46,65 @@ public class SimpleList
 		 
 		 int currentLength = list.length;
 		 
-		 if(currentLength > 0)
-			 
+		 if(currentLength > 0)	 
 		 {
-			 /*
-			  * This loop will iterate through the list
-			  * and shift elements if the list was already full
-			  */
-			 
-			 if(currentLength >= 10)
+			 if(count >= currentLength)
 			 {
-				 int[] tempList = new int[currentLength * 2];
+				 /**
+				  *  Creating a temporary list 50% larger
+				  *  if the list was already full, and copying
+				  *  the list array into it
+				  */
 				 
-				 // Copying the contents of the list to a temporary list 
-				 for(int inner = 0; inner < currentLength; inner++)
+				 int[] tempList = new int[list.length * 2];
+				 
+				 for(int index = 0; index < list.length; index++)
 				 {
-					 tempList[inner] = list[inner];
+					 tempList[index] = list[index];
 				 }
 				 
-				 // Overwriting the list with a 50% increase in length
-				 list = new int[currentLength * 2];
+				 /*
+				  * Allocating 50% more memory to a new list
+				  * and copying the tempList back into the main list
+				  */
 				 
-				 // copying the contents of the temporary list back into the main list
-				 for(int copyIndex = 0; copyIndex < currentLength; copyIndex++)
+				 list = new int[tempList.length];
+				 
+				 for(int index = 0; index < tempList.length; index++)
 				 {
-					 list[copyIndex] = tempList[copyIndex];
+					 list[index] = tempList[index];
 				 }
 				 
-				 for(int index = currentLength - 1; index > 0; index--)
-				 {
-					 list[index] = list[index - 1];
-				 }
-				
+			 }
+			
+			 /*
+			  * This loop will iterate through 
+			  * the list and shift elements 
+			  */ 
+			 
+			 for(int index = count; index > 0; index--)
+			 {
+				 
+				 list[index] = list[index - 1];
+				 
 			 }
 			 
-			 else
-			 {
-				 for(int index = currentLength - 1; index > 0; index--)
-				 {
-					list[index + 1] = list[index]; 
-				 }
-			 } 
-			 
+		 }
+		 
 		 list[0] = newElement;
 		 
 		 count++; 
+		
 	 }
-}
-	 
+
 	 
 	 /**
 	  * This method utilizes the search method
-	  * to find a particular element to remove.
+	  * to find a specified element to remove.
 	  * The elements will be shifted and count will 
-	  * be adjusted accordingly.
+	  * be adjusted accordingly. In addition,
+	  * the size will decrease 25% iff the number of
+	  * empty spaces exceeds 25%.
 	  * 
 	  * @param deleteElement	the element to delete from the list
 	  */
@@ -103,18 +113,61 @@ public class SimpleList
 	 {
 		 
 		 int removeIndex = search(deleteElement);
+		 double emptySpace = (list.length - (list.length * 0.25));
+		 int reduceSize = (int)Math.floor(emptySpace);
+		 double percentEmpty = 0.0;	
 		 
+		 int countEmpty = 0;
+		 
+		 int[] tempList = new int[reduceSize];
 		 
 		 if(removeIndex != -1)
 		 {
-			 for(int index = removeIndex; index < count - 1; index++)
+			 for(int index = removeIndex; index < count - 1 ; index++)
 			 {
 				 list[index] = list[index + 1];
 			 }
+			
 			 count--;
-			 System.out.println("Removed element " + deleteElement + ".");
+			 
+			 System.out.println("Removed element " + deleteElement + ".\n");
+			 
+			 /**
+			  * Counting empty spaces in the list to calculate how 
+			  * much of the list to deduct.
+			  */
+			 for(int index = count + 1; index <= list.length; index++)
+			 {
+				countEmpty = countEmpty + 1;
+			 }
+			 
+			
+			 percentEmpty = (double)countEmpty / list.length;
+			
+			 
+			 if(percentEmpty > 0.25)	
+			 {
+				
+				 /**
+				  * Copying elements in the list to a temporary
+				  * list prior to deducting 25%.
+				  */
+				 for(int index = 0; index < count; index++)
+				 {
+					 tempList[index] = list[index];
+				 }
+				 
+				 list = new int[tempList.length];
+				 
+				for(int index = 0; index < tempList.length; index++)
+				{
+					list[index] = tempList[index];
+				}
+				
+			 }
 			 
 		 }
+		 
 		 else
 		 {
 			 System.out.println(deleteElement + " does not exist.");
@@ -165,13 +218,12 @@ public class SimpleList
 		 }
 		 else
 		 {
-			 displayString = "";
+			 displayString = "The list is empty.";
 		 }
 		
 		 
 		 return displayString;
-		 
-		 
+		
 	 }
 	 
 	 
