@@ -37,12 +37,6 @@ class SimpleListTest
 		
 		assertEquals(3, testList.count());
 		
-		System.out.println("-----------------------");
-		System.out.println("Test Case: testAdd1()");
-		System.out.println("-----------------------");
-		System.out.println(testList.toString());
-		System.out.println();
-		
 	}
 	
 	
@@ -56,7 +50,6 @@ class SimpleListTest
 		SimpleList testList = new SimpleList();
 		testList.add(1);
 		testList.add(2);
-	
 		testList.add(3);
 		testList.add(4);
 		testList.add(5);
@@ -65,21 +58,13 @@ class SimpleListTest
 		testList.add(8);
 		testList.add(9);
 		testList.add(10);
-		
-		System.out.println("-----------------------");
-		System.out.println("Test Case: testAdd2():");
-		System.out.println("-----------------------");
-		System.out.println("Before adding the new element: ");
-		System.out.println(testList.toString() + "\n");
-		
 		testList.add(11);
 		testList.add(28);
 		testList.add(30);
 		
 		
-		System.out.println("After adding the new element: ");
-		System.out.println(testList.toString());
-		System.out.println();
+		
+		assertEquals("30 28 11 10 9 8 7 6 5 4 3 2 1 ", testList.toString());
 		
 		assertEquals(13, testList.count());
 	}
@@ -129,14 +114,8 @@ class SimpleListTest
 		testList.add(9);
 		testList.add(31);
 		
-		System.out.println("-----------------------");
-		System.out.println("Test Case: testAdd3(): ");
-		System.out.println("-----------------------");
-		System.out.println("Count: " + testList.count());
-		System.out.println(testList.toString());
-	
-		System.out.println();
 		assertEquals(35, testList.count());
+		assertEquals(40, testList.size());
 	}
 	
 	@Test
@@ -147,9 +126,7 @@ class SimpleListTest
 	public void removeTest1()
 	{
 		SimpleList testList = new SimpleList();
-		System.out.println("-------------------------");
-		System.out.println("Test Case: removeTest1():");
-		System.out.println("-------------------------");
+		
 		testList.add(34);
 		testList.add(4);
 		testList.add(6);
@@ -161,7 +138,7 @@ class SimpleListTest
 		testList.add(21);
 		testList.add(9);
 		
-		System.out.println("Before Removing: " + testList.toString() + "\n");
+		
 		
 		assertEquals(10, testList.count());
 		
@@ -169,151 +146,77 @@ class SimpleListTest
 		
 		assertEquals(9, testList.count());
 		
-		System.out.println("After Removing: " + testList.toString() + "\n");
+		assertEquals("9 21 13 89 12 78 6 4 34 ", testList.toString());
 	}
 	
 	@Test
 	/**
-	 *  Allocate 17 filled spaces, remove an element
-	 * 	and the size of the list should retain at 20.
+	 *  Allocate 5 filled spaces, remove an element, 
+	 *  and the size of the list should reduce to 7.
 	 */
 	public void removeTest2()
 	{
 		SimpleList testList = new SimpleList();
 		
-		System.out.println("-------------------------");
-		System.out.println("Test Case: removeTest2():");
-		System.out.println("-------------------------");
-		
 		testList.add(34);
 		testList.add(4);
 		testList.add(6);
 		testList.add(78);
 		testList.add(12);
-		testList.add(0);
-		testList.add(89);
-		testList.add(13);
-		testList.add(21);
-		testList.add(9);
 		
-		testList.add(72);
-		testList.add(20);
-		testList.add(10);
-		testList.add(26);
-		testList.add(11);
-		testList.add(5);
-		testList.add(4);
 		
-		assertEquals(17, testList.count());
+		testList.remove(34);
 		
-		testList.remove(0);
-		
-		assertEquals(16, testList.count());
-		
-		System.out.println(testList.toString());
-		System.out.println();
+		assertEquals(7, testList.size());
+		assertEquals(4, testList.count());
 
 	}
 	
 	@Test
 	/**
-	 * Take 12 elements, remove an element, and the
-	 * size of the list should decrease to 15.
-	 * 
+	 * Allocate 11 elements to the list.
+	 * Remove 1.
+	 * Confirm the list is size 15.
+	 * Add an element. 
+	 * The list is still 15.
+	 * Append 5 elements.
+	 * The list size should be 30.
+	 * The count should be 16.
+	 * Get the first element.
+	 * Get the last element.
 	 */
-	public void removeTest3()
+	public void overall()
 	{
 		SimpleList testList = new SimpleList();
-		
-		System.out.println("-------------------------");
-		System.out.println("Test Case: removeTest3():");
-		System.out.println("-------------------------");
-		
 		testList.add(34);
 		testList.add(4);
 		testList.add(6);
 		testList.add(78);
 		testList.add(12);
-		testList.add(0);
-		testList.add(89);
-		testList.add(13);
-		testList.add(21);
-		testList.add(9);
-		
-		testList.add(72);
-		testList.add(252);
-		
-		assertEquals(12, testList.count());
-		
-		testList.remove(0);
-		
-		assertEquals(11, testList.count());
-		
-		System.out.println(testList.toString() + "\n");
-		
-	}
-	
-	@Test
-	/*
-	 * Take a list of 10, add 2 elements, and keep removing
-	 * and adding an element until the size decreases to a 
-	 * single element (i.e. list size = 1). After that, keep adding 
-	 * an element to the list until the size increases to 16. After 
-	 * that, remove an element and maintain the size at 16.
-	 * Show the resulting list using toString();
-	 */
-	public void removeTest4()
-	{
-		SimpleList testList = new SimpleList();
-		
-		System.out.println("-------------------------");
-		System.out.println("Test Case: removeTest4():");
-		System.out.println("-------------------------");
-		
 		testList.add(34);
-		
-		assertEquals(1, testList.count());
-		
+		testList.add(4);
 		testList.add(6);
+		testList.add(78);
+		testList.add(12);
+		testList.add(12);
 		
-		testList.remove(34);
-
-		testList.add(72);
+		testList.remove(78);
+		assertEquals(15, testList.size());
 		
-		
-		testList.remove(72);
-		
-		testList.add(10);
-		
-		testList.remove(6);
-		
-		testList.add(8);
-		
-		testList.remove(10);
-		
-		testList.add(3);
-		
-		testList.remove(8);
-		
-		testList.add(6);
-		testList.add(7);
-		testList.add(8);
-		testList.add(9);
-		testList.add(0);
-		testList.add(41);
-		testList.add(0);
-		testList.add(13);
-		testList.add(24);
 		testList.add(2);
+		assertEquals(15, testList.size());
+		testList.append(34);
+		testList.append(4);
+		testList.append(6);
+		testList.append(78);
+		testList.append(78);
 		
-		testList.remove(0);
+		assertEquals(30, testList.size());
+		assertEquals(16, testList.count());
 		
-		System.out.println(testList.toString());
-		System.out.println("# of elements: " + testList.count());
-		
-		assertEquals(10, testList.count());
+		assertEquals(2, testList.first());
+		assertEquals(78, testList.last());
 		
 		
 	}
-	
-}
+}	

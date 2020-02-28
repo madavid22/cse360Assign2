@@ -3,13 +3,18 @@
  * Class ID: 199
  * Assignment 2
  * 
- * Version 1:
+ * Version 2:
  * This is a SimpleList class that will
  * add, remove, search, print, and count the
  * elements of an initial list of size 10.
  * The size of the list will be allocated 50% of 
- * space, or deallocated 25% of space depending on
- * the current condition of the list.
+ * space, or reduced 25% of space depending on
+ * the current condition of the list. The list also
+ * has an append(int) method that adds the element 
+ * to the end of the list. The user will also be able
+ * to find the first element as well as the size of 
+ * possible locations on the list. A user can also find the 
+ * first and last element of the list.
  */
 
 package cse360asssign2;
@@ -113,14 +118,11 @@ public class SimpleList
 	 {
 		 
 		 int removeIndex = search(deleteElement);
-		 double emptySpace = (list.length - (list.length * 0.25));
-		 int reduceSize = (int)Math.floor(emptySpace);
-		 double percentEmpty = 0.0;	
 		 
-		 int countEmpty = 0;
 		 
-		 int[] tempList = new int[reduceSize];
+		 int[] tempList = new int[(list.length * 3) / 4];
 		 
+	
 		 if(removeIndex != -1)
 		 {
 			 for(int index = removeIndex; index < count - 1 ; index++)
@@ -130,47 +132,28 @@ public class SimpleList
 			
 			 count--;
 			 
-			 System.out.println("Removed element " + deleteElement + ".\n");
 			 
-			 /**
-			  * Counting empty spaces in the list to calculate how 
-			  * much of the list to deduct.
-			  */
-			 for(int index = count + 1; index <= list.length; index++)
-			 {
-				countEmpty = countEmpty + 1;
-			 }
-			 
-			
-			 percentEmpty = (double)countEmpty / list.length;
-			
-			 
-			 if(percentEmpty > 0.25)	
+			 if(count <= (list.length * 3) / 4 && list.length >= 1)	
 			 {
 				
 				 /**
 				  * Copying elements in the list to a temporary
 				  * list prior to deducting 25%.
 				  */
-				 for(int index = 0; index < count; index++)
+				 for(int index = 0; index < tempList.length; index++)
 				 {
 					 tempList[index] = list[index];
 				 }
 				 
-				 list = new int[tempList.length];
-				 
-				for(int index = 0; index < tempList.length; index++)
-				{
-					list[index] = tempList[index];
-				}
-				
+				 list = tempList;
 			 }
-			 
+			
 		 }
 		 
 		 else
 		 {
 			 System.out.println(deleteElement + " does not exist.");
+			 
 		 }
 		 
 	 }
@@ -256,5 +239,82 @@ public class SimpleList
 		 return location;
 	 }
 	 
-
+	 /**
+	  * 
+	  * @param appendElement	the element to be appended to the end
+	  */
+	 public void append(int appendElement)
+	 {
+		 int currentLength = list.length;
+		 
+		 if(currentLength > 0)
+		 {
+			 if(count >= currentLength)
+			 {
+				 /**
+				  * Copy the elements in a temporary list with a 
+				  * length of 50% increase
+				  */
+				 int[] tempList = new int[currentLength * 2];
+				 
+				 for(int index = 0; index < list.length; index++)
+				 {
+					 tempList[index] = list[index]; 
+				 }
+				 
+				 list = new int[tempList.length];
+				 
+				 for(int index = 0; index < list.length; index++)
+				 {
+					 list[index] = tempList[index];
+				 }
+				 
+			 }
+		 }
+		 
+		 list[count] = appendElement;
+		 count++;
+		 
+	 }
+	 
+	 /**
+	  * 
+	  * @return	firstElement	the first element in the list
+	  */
+	 public int first()
+	 {
+		 int firstElement = -1;
+		 
+		 if(count != 0)
+		 {
+			 firstElement = list[0];
+		 }
+				 
+		 return firstElement;
+	 }
+	 
+	 /**
+	  * 
+	  * @return	lastElement		the last element in the list
+	  */
+	 public int last()
+	 {
+		 int lastElement = -1;
+		 
+		 if(count != 0)
+		 {
+			 lastElement = list[count - 1];
+		 }
+				 
+		 return lastElement;
+	 }
+	 
+	 /**
+	  * 
+	  * @return possible			the size of the possible locations in the list
+	  */
+	 public int size()
+	 {
+		 return list.length;
+	 }
 }
